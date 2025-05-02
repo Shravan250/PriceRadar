@@ -1,12 +1,42 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+
+const isValidAmazonProductURL = (url: string) => {
+  try {
+    const parsedURL = new URL(url);
+    const hostname = parsedURL.hostname;
+
+    if (
+      hostname.includes("amazon.com") ||
+      hostname.includes("amazon.") ||
+      hostname.endsWith("amazon")
+    ) {
+      return true;
+    }
+  } catch (error) {
+    return false;
+  }
+};
 
 const SearchBar = () => {
-  const [searchPrompt, setSearchPrompt] = React.useState("");
+  const [searchPrompt, setSearchPrompt] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const isValidLink = isValidAmazonProductURL(searchPrompt);
+
+    if (!isValidLink) return alert("Please provide a valid Amazon link");
+
+    try {
+      setLoading(true);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -22,8 +52,9 @@ const SearchBar = () => {
       <button
         type="submit"
         className="searchbar-btn bg-gray-900 border border-gray-900 rounded-lg shadow-xs px-5 py-3 text-white text-base font-semibold hover:opacity-90 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-40"
+        disabled={searchPrompt === ""}
       >
-        Search
+        {loading ? "Searching..." : "Search"}
       </button>
     </form>
   );
