@@ -8,7 +8,9 @@ interface Props {
 
 const PriceInfoCard = ({ title, iconSrc, value }: Props) => {
   return (
-    <div className={`price-info_card`}>
+    <div
+      className={`flex-1 min-w-[200px] flex flex-col gap-2 border-l-[3px] rounded-10 bg-white-100 px-5 py-4`}
+    >
       <p className="text-base text-black-100">{title}</p>
 
       <div className="flex gap-1">

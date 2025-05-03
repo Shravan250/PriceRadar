@@ -3,9 +3,10 @@ import Searchbar from "@/components/SearchBar";
 import Image from "next/image";
 // import { getAllProducts } from "@/lib/actions";
 import ProductCard from "@/components/ProductCard";
+import { getAllProducts } from "@/lib/actions";
 
 const Home = async () => {
-  // const allProducts = await getAllProducts();
+  const allProducts = await getAllProducts();
 
   return (
     <>
@@ -45,8 +46,8 @@ const Home = async () => {
         </h2>
 
         <div className="flex flex-wrap gap-x-8 gap-y-16">
-          {["mac", "apple", "iphone"].map((product) => (
-            <div>{product}</div>
+          {allProducts?.map((product) => (
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </section>
